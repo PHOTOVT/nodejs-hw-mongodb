@@ -10,9 +10,9 @@ export const initMongoConnection = async () => {
     const db = getEnvVar('MONGODB_DB');
 
     await mongoose.connect(
-      `mongodb+srv://${user}:${pwd}@${url}/${db}?retryWrites=true&w=majorityappName=GoITCluster`,
+      `mongodb+srv://${user}:${pwd}@${url}/${db}?retryWrites=true&w=majority&appName=GoITCluster`,
     );
-    console.log('Mongo connection successfully established!');
+    console.log('Mongo connection is successfully established!');
   } catch (e) {
     console.log('Error while setting up mongo connection', e);
     throw e;
