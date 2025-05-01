@@ -25,12 +25,7 @@ export const updateContact = async (
 
   if (!updatedContact) return null;
 
-  const isNew = false;
-
-  return {
-    data: updatedContact,
-    isNew,
-  };
+  return updatedContact;
 };
 
 export const deleteContactById = (contactId) =>

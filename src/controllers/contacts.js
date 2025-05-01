@@ -43,35 +43,35 @@ export const addContactController = async (req, res) => {
   });
 };
 
-export const upsertContactController = async (req, res) => {
+export const putContactController = async (req, res) => {
   const { contactId } = req.params;
-  const { data, isNew } = await updateContact(contactId, req.body, {
-    upsert: true,
-  });
-  const status = isNew ? 201 : 200;
 
-  res.json({
-    status,
-    message: 'The contact has been successfully updated.',
+  const data = await updateContact(contactId, req.body, { upsert: true });
+
+  if (!data) {
+    throw createError(500, `Failed to upsert contact with id=${contactId}.`);
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'The contact has been successfully upserted.',
     data,
   });
 };
 
 export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
+
   const data = await updateContact(contactId, req.body);
 
   if (!data) {
     throw createError(404, `A contact with id=${contactId} was not found.`);
   }
 
-  res.json({
+  res.status(200).json({
     status: 200,
     message: 'The contact was successfully updated.',
-    data: {
-      contact: data.data,
-      isNew: data.isNew,
-    },
+    data,
   });
 };
 
