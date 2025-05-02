@@ -11,19 +11,47 @@ import {
 
 import { controllerWrapper } from '../utils/controllerWrapper.js';
 
+import { validateBody } from '../utils/validateBody.js';
+
+import {
+  contactAddSchema,
+  contactUpdateSchema,
+} from '../validation/contacts.js';
+
+import { isValidObjectId } from 'mongoose';
+
 export const contactsRouter = Router();
 
 contactsRouter.get('/', controllerWrapper(getContactsController));
 
-contactsRouter.get('/:contactId', controllerWrapper(getContactsByIdController));
+contactsRouter.get(
+  '/:contactId',
+  isValidObjectId,
+  controllerWrapper(getContactsByIdController),
+);
 
-contactsRouter.post('/', controllerWrapper(addContactController));
+contactsRouter.post(
+  '/',
+  validateBody(contactAddSchema),
+  controllerWrapper(addContactController),
+);
 
-contactsRouter.put('/:contactId', controllerWrapper(putContactController));
+contactsRouter.put(
+  '/:contactId',
+  isValidObjectId,
+  validateBody(contactAddSchema),
+  controllerWrapper(putContactController),
+);
 
-contactsRouter.patch('/:contactId', controllerWrapper(patchContactController));
+contactsRouter.patch(
+  '/:contactId',
+  isValidObjectId,
+  validateBody(contactUpdateSchema),
+  controllerWrapper(patchContactController),
+);
 
 contactsRouter.delete(
   '/:contactId',
+  isValidObjectId,
   controllerWrapper(deleteContactController),
 );
