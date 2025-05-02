@@ -1,4 +1,5 @@
-import createError from 'http-errors';
+import createHttpError from 'http-errors';
+
 import {
   getContacts,
   getContactsById,
@@ -23,7 +24,7 @@ export const getContactsByIdController = async (req, res) => {
   const data = await getContactsById(contactId);
 
   if (!data) {
-    throw createError(404, `A contact with id=${contactId} was not found.`);
+    throw createHttpError(404, `A contact with id=${contactId} was not found.`);
   }
 
   res.json({
@@ -34,7 +35,7 @@ export const getContactsByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
-  const data = await addContact(req.body);
+ const data = await addContact(req.body);
 
   res.status(201).json({
     status: 201,
@@ -49,7 +50,7 @@ export const putContactController = async (req, res) => {
   const data = await updateContact(contactId, req.body, { upsert: true });
 
   if (!data) {
-    throw createError(500, `Failed to upsert contact with id=${contactId}.`);
+    throw createHttpError(500, `Failed to upsert contact with id=${contactId}.`);
   }
 
   res.status(200).json({
@@ -65,7 +66,7 @@ export const patchContactController = async (req, res) => {
   const data = await updateContact(contactId, req.body);
 
   if (!data) {
-    throw createError(404, `A contact with id=${contactId} was not found.`);
+    throw createHttpError(404, `A contact with id=${contactId} was not found.`);
   }
 
   res.status(200).json({
@@ -80,7 +81,7 @@ export const deleteContactController = async (req, res) => {
   const data = await deleteContactById(contactId);
 
   if (!data) {
-    throw createError(404, `A contact with id=${contactId} was not found.`);
+    throw createHttpError(404, `A contact with id=${contactId} was not found.`);
   }
 
   res.status(204).send();
