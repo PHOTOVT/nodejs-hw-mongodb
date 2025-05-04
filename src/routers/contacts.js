@@ -18,7 +18,7 @@ import {
   contactUpdateSchema,
 } from '../validation/contacts.js';
 
-import { isValidObjectId } from 'mongoose';
+import { isValidId } from '../middlewares/isValidId.js';
 
 export const contactsRouter = Router();
 
@@ -26,7 +26,7 @@ contactsRouter.get('/', controllerWrapper(getContactsController));
 
 contactsRouter.get(
   '/:contactId',
-  isValidObjectId,
+  isValidId,
   controllerWrapper(getContactsByIdController),
 );
 
@@ -38,20 +38,20 @@ contactsRouter.post(
 
 contactsRouter.put(
   '/:contactId',
-  isValidObjectId,
+  isValidId,
   validateBody(contactAddSchema),
   controllerWrapper(putContactController),
 );
 
 contactsRouter.patch(
   '/:contactId',
-  isValidObjectId,
+  isValidId,
   validateBody(contactUpdateSchema),
   controllerWrapper(patchContactController),
 );
 
 contactsRouter.delete(
   '/:contactId',
-  isValidObjectId,
+  isValidId,
   controllerWrapper(deleteContactController),
 );
